@@ -1,0 +1,64 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base{% endblock %}</title>
+    {% tailwind_css %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="text-gray-600 body-font bg-blue-300">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-xl">Twitter</span>
+          </a>
+          <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+            <a href="#" class="mr-5 hover:text-gray-900">First Link</a>
+            <a href="#" class="mr-5 hover:text-gray-900">Second Link</a>
+            <a href="#" class="mr-5 hover:text-gray-900">Third Link</a>
+            <a href="#" class="mr-5 hover:text-gray-900">Fourth Link</a>
+          </nav>
+          <a href="{% url 'logout' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+            Logout
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+    </header>
+
+    <!-- Main Layout: Sidebar + Content -->
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4 bg-gray-800 text-white p-5 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Menu</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{% url 'tweet_list' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Home</a>
+                </li>
+                <li>
+                    <a href="{% url 'tweet_create' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Create Tweet</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Settings</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Page Content -->
+        <div class="w-full md:w-3/4 p-5">
+            {% block content %}
+            <h1 class="px-3 mx-4 bg-slate-200">Hello, how are you?</h1>
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
