@@ -5,6 +5,7 @@ from .models import Tweet
 from .forms import TweetForm, UserRegisterationForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 
@@ -81,3 +82,11 @@ def register(request):
     return render(request, 'registration/register.html',{
         'form':form
     })
+
+def login_view(request):
+    login(request)
+    return redirect('login')  # or wherever you want
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # or wherever you want

@@ -26,12 +26,14 @@
                     </a>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ tweet.text }}</p>
                     <div class="flex justify-center space-x-2 mt-3">
-                        <a href="{% url 'tweet_edit' tweet.id %}" class="px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300">
-                            Edit
-                        </a>
-                        <a href="{% url 'tweet_delete' tweet.id %}" class="px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300">
-                            Delete
-                        </a>
+                        {% if tweet.user == user %}
+                            <a href="{% url 'tweet_edit' tweet.id %}" class="px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300">
+                                Edit
+                            </a>
+                            <a href="{% url 'tweet_delete' tweet.id %}" class="px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300">
+                                Delete
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

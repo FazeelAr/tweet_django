@@ -13,17 +13,21 @@
             {% csrf_token %}
             {{form.as_p}}
             <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                Submit
+                {% if form.instance.pk %}
+                    Save
+                {% else %}
+                    Post
+                {% endif %}
             </button>
             
         </form>
-        <a type="submit"  href="{% url 'tweet_list' %}" class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300">
+        {% comment %} <a type="submit"  href="{% url 'tweet_list' %}" class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300">
             {% if form.instance.pk %}
                 Save
             {% else %}
                 Post
             {% endif %}
-        </a>
+        </a> {% endcomment %}
         
     </h2>
         
