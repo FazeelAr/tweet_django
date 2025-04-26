@@ -21,7 +21,9 @@ from django.conf.urls.static import static
 from django.contrib.auth.urls import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',include('tweet.urls')),
     path('tweet/',include('tweet.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('accounts/',include('django.contrib.auth.urls'))
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/',include('tweet.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

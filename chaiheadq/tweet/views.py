@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import Tweet
 from .forms import TweetForm, UserRegisterationForm
+from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -84,9 +85,22 @@ def register(request):
     })
 
 def login_view(request):
-    login(request)
-    return redirect('login')  # or wherever you want
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect('tweet_list')  # or wherever you want
+        else:
+            # Authentication failed
+            return render(request, 'registration/login.html', {'error': 'Invalid username or password.'})
+    
+    return render(request, 'registration/login.html')
 
 def logout_view(request):
-    logout(request)
-    return redirect('login')  # or wherever you want
+    if request.method == 'POST':
+        logout(request)
+    return render(request, 'registration/logout.html')  # or wherever you want
