@@ -15,9 +15,11 @@
         <div class="mt-3 space-y-4">
             {% for tweet in tweets %}
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg mx-auto block" src="{{ tweet.photo.url }}" alt="Tweet Image" />
-                </a>
+                {% if tweet.photo  %}
+                    <a href="#">
+                        <img class="rounded-t-lg mx-auto block" src="{{ tweet.photo.url }}" alt="Tweet Image" />
+                    </a>
+                {% endif %}
                 <div class="p-5 text-center">
                     <a href="#">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

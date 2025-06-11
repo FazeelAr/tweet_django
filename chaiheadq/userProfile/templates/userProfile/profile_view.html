@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}Profile {% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-6">
+  <div class="bg-white shadow rounded-2xl p-6">
+    <!-- Profile Header -->
+    <div class="flex items-center space-x-4">
+      {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile picture"
+            class="w-20 h-20 rounded-full object-cover border-2 border-blue-500">
+        {% else %}
+        <img src="{% static 'avatar.png' %}" alt="Default avatar"
+            class="w-20 h-20 rounded-full object-cover border-2 border-gray-400">
+        {% endif %}
+
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-800">@{{ profile_user.username }}</h2>
+        {% if profile.location %}
+          <p class="text-gray-500">{{ profile.location }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Bio -->
+    {% if profile.bio %}
+      <p class="mt-4 text-gray-700">{{ profile.bio }}</p>
+    {% endif %}
+
+    <!-- Stats -->
+    <div class="mt-6 flex space-x-6 text-gray-600">
+      <span><strong>{{ profile.follower_count }}</strong> Followers</span>
+      <span><strong>{{ profile.following_count }}</strong> Following</span>
+    </div>
+
+    <!-- Follow/Unfollow (Optional Button) -->
+    {% if user.is_authenticated and user != profile_user %}
+      {% if user in profile.followers.all %}
+        <form method="post" action="{% url 'profile:unfollow_user' profile_user.username %}">
+          {% csrf_token %}
+          <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Unfollow</button>
+        </form>
+      {% else %}
+        <form method="post" action="{% url 'profile:follow_user' profile_user.username %}">
+          {% csrf_token %}
+          <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Follow</button>
+        </form>
+      {% endif %}
+    {% endif %}
+
+    <!-- Edit Profile Button (Visible only to profile owner) -->
+    {% if user == profile_user %}
+      <div class="mt-4">
+        <a href="{% url 'userProfile:edit_profile' user.username %}" class="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+          Edit Profile
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

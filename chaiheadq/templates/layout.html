@@ -61,7 +61,11 @@
                     <a href="{% url 'tweet_create' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Create Tweet</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
+                  {% if user.is_authenticated and user.username %}
+                    <a href="{% url 'userProfile:profile_view' user.username %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
+                  {% else %}
+                    <a href="{% url 'login' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
+                  {% endif %}
                 </li>
                 <li>
                     <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Settings</a>
