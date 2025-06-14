@@ -7,78 +7,90 @@
     <title>{% block title %}Base{% endblock %}</title>
     {% tailwind_css %}
 </head>
-<body>
-    <!-- Header -->
-    <header class="text-gray-600 body-font my-2 bg-blue-300">
-      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+<body class="bg-gray-100">
+    <!-- Fixed Black Navbar -->
+    <header class="fixed w-full top-0 left-0 z-50 bg-gray-900 text-white shadow-lg">
+        <div class="container mx-auto flex flex-wrap p-4 flex-col md:flex-row items-center">
+            <!-- Logo -->
+            <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    class="w-10 h-10 text-white p-2 bg-gray-700 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">Twitter</span>
+            </a>
         
-        <!-- Logo -->
-        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-               stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-               class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
-          <span class="ml-3 text-xl">Twitter</span>
-        </a>
-    
-        <!-- Push this block to the right side -->
-        <div class="ml-auto flex items-center space-x-4">
-          {% if user.is_authenticated %}
-            <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <button type="submit" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 
-                        focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-                Logout
-              </button>
-            </form>
-          {% else %}
-            <a href="{% url 'register' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 
-                      focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-              Register
-            </a>
-            <a href="{% url 'login' %}" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 
-                      focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-              Login
-            </a>
-          {% endif %}
+            <!-- Auth Buttons -->
+            <div class="ml-auto flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="inline-flex items-center bg-gray-700 text-white py-1 px-4 
+                                    focus:outline-none hover:bg-gray-600 rounded-full text-sm transition-colors">
+                            Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'register' %}" class="inline-flex items-center bg-gray-700 text-white py-1 px-4 
+                                focus:outline-none hover:bg-gray-600 rounded-full text-sm transition-colors">
+                        Register
+                    </a>
+                    <a href="{% url 'login' %}" class="inline-flex items-center bg-gray-800 text-white py-1 px-4 
+                                focus:outline-none hover:bg-gray-700 rounded-full text-sm transition-colors">
+                        Login
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    
-      </div>
     </header>
-    
 
-    <!-- Main Layout: Sidebar + Content -->
-    <div class="flex flex-col md:flex-row min-h-screen">
-        <!-- Sidebar -->
-        <div class="w-full md:w-1/4 bg-gray-800 text-white p-5 rounded-lg shadow-md">
-            <h2 class="text-xl font-bold mb-4">Menu</h2>
-            <ul class="space-y-2">
+    <!-- Main Layout -->
+    <div class="flex pt-16 min-h-screen">  <!-- pt-16 matches navbar height -->
+        <!-- Fixed Black Sidebar -->
+        <div class="fixed left-0 top-16 h-screen w-64 bg-gray-900 text-white p-5 shadow-lg z-40">
+            <h2 class="text-xl font-bold mb-6">Menu</h2>
+            <ul class="space-y-3">
                 <li>
-                    <a href="{% url 'tweet_list' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Home</a>
+                    <a href="{% url 'tweet_list' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                        <span class="mr-3">🏠</span>
+                        <span>Home</span>
+                    </a>
                 </li>
                 <li>
-                    <a href="{% url 'tweet_create' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Create Tweet</a>
+                    <a href="{% url 'tweet_create' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                        <span class="mr-3">✏️</span>
+                        <span>Create Tweet</span>
+                    </a>
                 </li>
                 <li>
-                  {% if user.is_authenticated and user.username %}
-                    <a href="{% url 'userProfile:profile_view' user.username %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
-                  {% else %}
-                    <a href="{% url 'login' %}" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Profile</a>
-                  {% endif %}
+                    {% if user.is_authenticated and user.username %}
+                        <a href="{% url 'userProfile:profile_view' user.username %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                            <span class="mr-3">👤</span>
+                            <span>Profile</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                            <span class="mr-3">👤</span>
+                            <span>Profile</span>
+                        </a>
+                    {% endif %}
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-700">Settings</a>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                        <span class="mr-3">⚙️</span>
+                        <span>Settings</span>
+                    </a>
                 </li>
             </ul>
         </div>
 
-        <!-- Page Content -->
-        <div class="w-full md:w-3/4 p-5">
+        <!-- Main Content Area -->
+        <main class="flex-1 ml-64 p-6 mt-4">  <!-- ml-64 matches sidebar width -->
             {% block content %}
-            
+            <!-- Content will be injected here -->
             {% endblock %}
-        </div>
+        </main>
     </div>
 </body>
 </html>

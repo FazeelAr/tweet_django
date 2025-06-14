@@ -5,15 +5,29 @@ from django.contrib.auth.models import User
 from .models import Profile
 # Create your views here.
 
+from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.models import User
+from .models import Profile
+from tweet.models import Tweet  # Import your Tweet model
+
 def profile_view(request, username):
-    
     user_obj = get_object_or_404(User, username=username)
+    
     try:
         profile = user_obj.profile
     except Profile.DoesNotExist:
         profile = Profile.objects.create(user=user_obj)
-
-    return render(request, 'userProfile/profile_view.html', {'profile_user': user_obj, 'profile': profile})
+    
+    # Get all tweets by this user, ordered by most recent first
+    tweets = Tweet.objects.filter(user=user_obj).order_by('-created_at')
+    
+    context = {
+        'profile_user': user_obj,
+        'profile': profile,
+        'tweets': tweets,  # Add tweets to the context
+    }
+    
+    return render(request, 'userProfile/profile_view.html', context)
 
 
 from .forms import ProfileForm
